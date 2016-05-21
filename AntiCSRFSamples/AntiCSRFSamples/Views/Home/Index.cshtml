@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<form id="form1" action="/Home/Transfer" method="post">
+    @Html.AntiForgeryToken()
+    <p>從 <input id="source" name="source" type="text" /></p>
+    <p>匯 <input id="money" name="money" type="text" /></p>
+    <p>給 <input id="target" name="target" type="text" /></p>
+    <p><input id="Submit1" type="submit" value="submit" /></p>
+</form>
+@if (false)
+{
+    // For Intellisense
+    <script src="~/scripts/jquery-1.10.2.js"></script>
+}
+<script>
+    $(function () {
+        $("#Submit1").on("click", function () {
+            $.ajax({
+                url: '/Home/Transfer',
+                method: 'POST',
+                data: {
+                    source: $("#source").val(),
+                    money: $("#money").val(),
+                    target: $("#target").val()
+                },
+            })
+            .done(function (data) {
+                alert(JSON.stringify(data));
+            });
+        });
+    });
+</script>
