@@ -5,21 +5,26 @@
 
 <h2>Index</h2>
 
-<form id="form1" action="/Home/Transfer" method="post">
+<div>
     <input type="hidden" id="verificationToken" name="verificationToken" value="@ViewBag.VerificationToken" />
-    <p>從 <input id="source" name="source" type="text" /></p>
-    <p>匯 <input id="money" name="money" type="text" /></p>
-    <p>給 <input id="target" name="target" type="text" /></p>
-    <p><input id="Submit1" type="submit" value="submit" /></p>
-</form>
-@if (false)
-{
-    // For Intellisense
-    <script src="~/scripts/jquery-1.10.2.js"></script>
-}
+    <p>
+        從 <input id="source" name="source" type="text" />
+    </p>
+    <p>
+        匯 <input id="money" name="money" type="text" />
+    </p>
+    <p>
+        給 <input id="target" name="target" type="text" />
+    </p>
+    <p>
+        <input id="transfer" type="button" value="Ajax Transfer" />
+    </p>
+</div>
+
+<script src="~/scripts/jquery-1.10.2.js"></script>
 <script>
     $(function () {
-        $("#Submit1").on("click", function () {
+        $("#transfer").on("click", function () {
             $.ajax({
                 url: '/Home/Transfer',
                 method: 'POST',
