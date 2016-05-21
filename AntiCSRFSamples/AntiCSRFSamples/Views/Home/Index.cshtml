@@ -7,26 +7,33 @@
 
 <form id="form1" action="/Home/Transfer" method="post">
     @Html.AntiForgeryToken()
-    <p>從 <input id="source" name="source" type="text" /></p>
-    <p>匯 <input id="money" name="money" type="text" /></p>
-    <p>給 <input id="target" name="target" type="text" /></p>
-    <p><input id="Submit1" type="submit" value="submit" /></p>
+    <p>
+        從 <input id="source" name="source" type="text" />
+    </p>
+    <p>
+        匯 <input id="money" name="money" type="text" />
+    </p>
+    <p>
+        給 <input id="target" name="target" type="text" />
+    </p>
+    <p>
+        <input id="submit" type="submit" value="Transfer" />
+        <input id="transfer" type="button" value="Ajax Transfer" />
+    </p>
 </form>
-@if (false)
-{
-    // For Intellisense
-    <script src="~/scripts/jquery-1.10.2.js"></script>
-}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
 <script>
     $(function () {
-        $("#Submit1").on("click", function () {
+        $("#transfer").on("click", function () {
             $.ajax({
                 url: '/Home/Transfer',
                 method: 'POST',
                 data: {
                     source: $("#source").val(),
                     money: $("#money").val(),
-                    target: $("#target").val()
+                    target: $("#target").val(),
+                    __RequestVerificationToken: $('#form1 input[name=__RequestVerificationToken]').val()
                 }
             })
             .done(function (data) {
