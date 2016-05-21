@@ -1,3 +1,3 @@
-# aspnet.mvc.anticsrf.samples
+# anticsrf.samples
 
 - AntiCSRF Sample Code use CustomValidateAntiForgeryToken
