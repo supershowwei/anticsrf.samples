@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using AntiCSRFSamples.Filters;
 using AntiCSRFSamples.Models;
 
 namespace AntiCSRFSamples.Controllers
@@ -14,11 +16,15 @@ namespace AntiCSRFSamples.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            // 這邊我用 AntiForgery 這個 Helper 來幫我產生 Token。
+            // 我們可以自己撰寫自己想要的邏輯，用 MD5、SHAxxx…等方式產生一個 Hash 過的 Token。
+            ViewBag.VerificationToken = GetAntiForgeryToken();
+
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [CustomValidateAntiForgeryToken]
         public ActionResult Transfer(string source, int money, string target)
         {
             XDocument xdoc = XDocument.Load(Path.Combine(Server.MapPath("~/"), "Money.xml"));
@@ -34,6 +40,18 @@ namespace AntiCSRFSamples.Controllers
             var balances = xdoc.Root.Elements().Select(e => new Deposit() { Name = e.Attribute("Name").Value, Balance = int.Parse(e.Value) });
 
             return Json(balances);
+        }
+
+        private static string GetAntiForgeryToken()
+        {
+            string cookieToken;
+            string formToken;
+
+            // 這邊我用 AntiForgery 這個 Helper 來幫我產生 Token。
+            // 我們也可以自己撰寫自己想要的邏輯，用 MD5、SHAxxx…等方式產生一個 Hash 過的 Token。
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+
+            return string.Concat(cookieToken, ":", formToken);
         }
     }
 }

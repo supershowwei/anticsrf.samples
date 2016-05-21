@@ -6,7 +6,7 @@
 <h2>Index</h2>
 
 <form id="form1" action="/Home/Transfer" method="post">
-    @Html.AntiForgeryToken()
+    <input type="hidden" id="verificationToken" name="verificationToken" value="@ViewBag.VerificationToken" />
     <p>從 <input id="source" name="source" type="text" /></p>
     <p>匯 <input id="money" name="money" type="text" /></p>
     <p>給 <input id="target" name="target" type="text" /></p>
@@ -28,6 +28,9 @@
                     money: $("#money").val(),
                     target: $("#target").val()
                 },
+                headers: {
+                    "VerificationToken": $("#verificationToken").val()
+                }
             })
             .done(function (data) {
                 alert(JSON.stringify(data));

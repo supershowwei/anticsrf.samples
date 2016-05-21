@@ -1,3 +1,3 @@
 # anticsrf.samples
 
-- AntiCSRF Sample Code use AntiForgeryToken
+- AntiCSRF Sample Code use CustomValidateAntiForgeryToken
